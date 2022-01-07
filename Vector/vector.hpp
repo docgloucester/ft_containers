@@ -6,7 +6,7 @@
 /*   By: rgilles <rgilles@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 10:43:07 by rgilles           #+#    #+#             */
-/*   Updated: 2021/11/11 22:56:20 by rgilles          ###   ########.fr       */
+/*   Updated: 2022/01/07 16:22:25 by rgilles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 
 # include <allocator>
 # include <cstddef>
-# #include "VectorIterator.hpp"
+# include "utils/LexicographicalCompare.hpp"
 
 namespace ft
 {
-	template <class T, class Alloc>
+	template <class T, class Alloc = std::allocator<T> >
 	class vector
 	{
 	public:
@@ -31,9 +31,9 @@ namespace ft
 		typedef	allocator_type::pointer pointer;
 		typedef	allocator_type::const_pointer const_pointer;
 		typedef __gnu_cxx::__normal_iterator<pointer, vector> iterator;
+		typedef std::reverse_iterator<iterator> reverse_iterator;
 		typedef __gnu_cxx::__normal_iterator<const_pointer, vector> const_iterator;
 		typedef std::reverse_iterator<const_iterator> const_reverse_iterator;
-		typedef std::reverse_iterator<iterator> reverse_iterator;
 		typedef	ptrdiff_t difference_type;
 		typedef	size_t size_type;
 		
@@ -97,22 +97,40 @@ namespace ft
 	};
 
 	template <class T, class Alloc>
-	bool	operator==(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
+	bool	operator==(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+	{
+		
+	};
 
 	template <class T, class Alloc>
-	bool	operator!=(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
+	bool	operator!=(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+	{
+		
+	};
 
 	template <class T, class Alloc>
-	bool	operator<(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
+	bool	operator<(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+	{
+		lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+	};
 
 	template <class T, class Alloc>
-	bool	operator<=(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
+	bool	operator<=(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+	{
+		lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end(), operator<=);
+	};
 
 	template <class T, class Alloc>
-	bool	operator>(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
+	bool	operator>(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+	{
+		lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end(), operator>);
+	};
 
 	template <class T, class Alloc>
-	bool	operator>=(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
+	bool	operator>=(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+	{
+		lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end(), operator>=);
+	};
 
 	template <class T, class Alloc>
 	void	swap(vector<T,Alloc>& x, vector<T,Alloc>& y);

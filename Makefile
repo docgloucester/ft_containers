@@ -14,7 +14,7 @@ NAME =		ft_containers
 CPPC =		c++
 CPPFLAGS =	-Wall -Wextra -Werror -std=c++98 -g3 -IStack -IMap -IVector
 
-INCL =		Stack/stack.hpp Vector/vector.hpp
+INCL =		Stack/stack.hpp #Vector/vector.hpp
 SRCS =		main.cpp
 OBJS =		${SRCS:.cpp=.o}
 
