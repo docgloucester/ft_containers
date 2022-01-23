@@ -6,11 +6,12 @@
 /*   By: rgilles <rgilles@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 11:34:40 by rgilles           #+#    #+#             */
-/*   Updated: 2022/01/07 13:05:32 by rgilles          ###   ########.fr       */
+/*   Updated: 2022/01/23 17:10:12 by rgilles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stack.hpp>
+#include <vector.hpp>
 #include <deque>
 #include <iostream>
 
@@ -18,6 +19,7 @@ int	main(void)
 {
 	ft::stack<int>	uwu;
 	ft::stack<int>	owo;
+	ft::vector<int>	ewe;
 
 	std::cout << "Stack size is " << uwu.size() << std::endl;
 	uwu.push(1);
