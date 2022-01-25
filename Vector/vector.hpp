@@ -6,7 +6,7 @@
 /*   By: rgilles <rgilles@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 10:43:07 by rgilles           #+#    #+#             */
-/*   Updated: 2022/01/23 17:56:23 by rgilles          ###   ########.fr       */
+/*   Updated: 2022/01/25 12:45:52 by rgilles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,11 @@
 
 # include <memory>
 # include <cstddef>
-# include "VectorIterator.hpp"
-# include "../utils/LexicographicalCompare.hpp"
-# include "../utils/Equal.hpp"
+# include <VectorIterator.hpp>
+# include <LexicographicalCompare.hpp>
+# include <Equal.hpp>
+# include <enable_if.hpp>
+# include <is_integral.hpp>
 
 namespace ft
 {
@@ -48,13 +50,43 @@ namespace ft
 			};
 			
 
-			explicit vector(const allocator_type& alloc = allocator_type());
-			explicit vector(size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type());
+			explicit vector(const allocator_type& alloc = allocator_type()) 													: _a(alloc), _data(NULL), _size(0), _capa(0)	{}
+			explicit vector(size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type())	: _a(alloc), _size(0), _capa(0)					{
+																																													this->reserve(n);
+																																													for (size_type i = 0; i < n; i++)
+																																														this->_a.construct(this->_data + i, val);
+																																													this->_size = n;
+																																													this->_capa = n;
+																																												}
 			template <class InputIterator>
-			vector(InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type());
-			vector(const vector& x);
-			~vector() {};
-			vector& operator=(const vector& x);
+			vector(typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type first, InputIterator last,
+				const allocator_type& alloc = allocator_type())																	: _a(alloc), _data(NULL), _size(0), _capa(0)	{
+																																													if (first > last)
+																																														return ;
+																																													for (; first != last; first++)
+																																														this->push_back(*first);
+																																												}
+			vector(const vector& cpy)																																			{
+																																													*this = cpy;
+																																												}
+			virtual ~vector() 																																					{
+																																													this->clear();
+																																													if (this->_capa > 0)
+																																														_a.deallocate(this->_data, this->_capa);
+																																												}
+			vector& operator=(const vector& rhs)																																{
+																																													if (this != &rhs)
+																																													{
+																																														this->~vector();
+																																														this->_a = rhs._a;
+																																														this->_size = rhs._size;
+																																														this->_capa = rhs._capa;
+																																														this->_data = this->_a.allocate(_capa);
+																																														for (size_t i = 0; i < this->_size; i++)
+																																															this->_a.construct(this->_data + i, rhs._data[i]);
+																																													}
+																																													return (*this);
+																																												}
 
 			//Iterators
 			iterator				begin()			{return (iterator(this->_data));}
@@ -165,8 +197,7 @@ namespace ft
 																									insert(position, val);
 																							}
 			template <class InputIterator>
-			void		insert(iterator position,
-				/*typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type*/ InputIterator first,
+			void		insert(iterator position, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type first,
 																		InputIterator last)	{
 																								if (this->_capa == this->max_size())
 																									return ;
@@ -190,13 +221,13 @@ namespace ft
 																									this->_size--;
 																								}
 																							}
-			void		push_back (const value_type& val)									{
+			void		push_back(const value_type& val)									{
 																								if (!this->_capa)
 																								{
 																									this->_data = this->_a.allocate(1);
 																									this->_capa++;
 																								}
-																								else if (this->_capa == this->_size)
+																								else if (this->_size == this->_capa)
 																									make_room(this->_capa * 2);
 																								this->_a.construct(this->_data + this->_size, val);
 																								this->_size++;
@@ -236,6 +267,10 @@ namespace ft
 																							}
 
 		private:
+			allocator_type	_a;
+			pointer			_data;
+			size_type		_size;
+			size_type		_capa;
 
 			void		make_room(size_type n)
 			{
@@ -252,11 +287,6 @@ namespace ft
 				this->_data = newdata;
 				this->_capa = n;
 			}
-
-			allocator_type	_a;
-			pointer			_data;
-			size_type		_size;
-			size_type		_capa;
 	};
 
 //----------------------------------------------------------------------------------------------------

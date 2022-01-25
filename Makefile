@@ -6,13 +6,13 @@
 #    By: rgilles <rgilles@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/04 14:47:57 by rgilles           #+#    #+#              #
-#    Updated: 2022/01/23 17:04:02 by rgilles          ###   ########.fr        #
+#    Updated: 2022/01/25 12:48:43 by rgilles          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME =		ft_containers
 CPPC =		c++
-CPPFLAGS =	-Wall -Wextra -Werror -std=c++98 -g3 -IStack -IMap -IVector
+CPPFLAGS =	-Wall -Wextra -Werror -std=c++98 -g3 -IStack -IMap -IVector -Iutils
 
 INCL =		Stack/stack.hpp Vector/vector.hpp Vector/VectorIterator.hpp utils/Equal.hpp utils/LexicographicalCompare.hpp
 SRCS =		main.cpp

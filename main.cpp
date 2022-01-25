@@ -6,7 +6,7 @@
 /*   By: rgilles <rgilles@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 11:34:40 by rgilles           #+#    #+#             */
-/*   Updated: 2022/01/23 17:10:12 by rgilles          ###   ########.fr       */
+/*   Updated: 2022/01/24 14:31:51 by rgilles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	main(void)
 {
 	ft::stack<int>	uwu;
 	ft::stack<int>	owo;
-	ft::vector<int>	ewe;
+	ft::vector<int>	ewe(5, 12);
 
 	std::cout << "Stack size is " << uwu.size() << std::endl;
 	uwu.push(1);

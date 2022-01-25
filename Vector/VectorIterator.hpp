@@ -6,7 +6,7 @@
 /*   By: rgilles <rgilles@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/13 16:55:16 by rgilles           #+#    #+#             */
-/*   Updated: 2022/01/23 17:46:27 by rgilles          ###   ########.fr       */
+/*   Updated: 2022/01/23 18:24:54 by rgilles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ namespace ft
 			reference		operator*() const				{return (*this->_p);}
 			reference		operator->() const				{return (this->_p);}
 			reference		operator[](int i) const			{return (this->_p[i]);}
-			iterator		operator++()					{++this->_p; return (*this);}
-			iterator		operator--()					{--this->_p; return (*this);}
+			reference		operator++()					{++this->_p; return (*this);}
+			reference		operator--()					{--this->_p; return (*this);}
 			iterator		operator++(int)					{iterator tmp(*this); ++this->_p; return(tmp);}
 			iterator		operator--(int)					{iterator tmp(*this); --this->_p; return(tmp);}
 			iterator		operator+(size_t i)				{return (iterator(this->_p + i));}
