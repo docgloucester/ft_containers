@@ -17,8 +17,8 @@
 # include <stdexcept>
 # include "vector_iterator.hpp"
 # include "../common/reverse_iterator.hpp"
-# include "../common/LexicographicalCompare.hpp"
-# include "../common/Equal.hpp"
+# include "../common/lexicographical_compare.hpp"
+# include "../common/equal.hpp"
 # include "../common/enable_if.hpp"
 # include "../common/is_integral.hpp"
 
