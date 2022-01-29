@@ -6,9 +6,12 @@
 /*   By: rgilles <rgilles@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 16:02:53 by rgilles           #+#    #+#             */
-/*   Updated: 2022/01/25 12:49:27 by rgilles          ###   ########.fr       */
+/*   Updated: 2022/01/29 15:49:20 by rgilles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#ifndef LEXICOGRAPHICALCOMPARE_HPP
+# define LEXICOGRAPHICALCOMPARE_HPP
 
 namespace ft
 {
@@ -42,3 +45,5 @@ namespace ft
 		return (first1 == last1) && (first2 != last2);
 	}*/
 }
+
+#endif

@@ -6,7 +6,7 @@
 /*   By: rgilles <rgilles@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 10:43:07 by rgilles           #+#    #+#             */
-/*   Updated: 2022/01/29 15:23:05 by rgilles          ###   ########.fr       */
+/*   Updated: 2022/01/29 17:33:03 by rgilles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,12 @@
 
 # include <memory>
 # include <stdexcept>
-//# include <cstddef>
-# include <vector_iterator.hpp>
-# include <reverse_iterator.hpp>
-# include <LexicographicalCompare.hpp>
-# include <Equal.hpp>
-# include <enable_if.hpp>
-# include <is_integral.hpp>
+# include "vector_iterator.hpp"
+# include "../common/reverse_iterator.hpp"
+# include "../common/LexicographicalCompare.hpp"
+# include "../common/Equal.hpp"
+# include "../common/enable_if.hpp"
+# include "../common/is_integral.hpp"
 
 namespace ft
 {
@@ -37,8 +36,8 @@ namespace ft
 			typedef typename allocator_type::const_pointer		const_pointer;
 			typedef vector_iterator<pointer>					iterator;
 			typedef vector_iterator<const_pointer>				const_iterator;
-			typedef myiterator_reverse<iterator>				reverse_iterator;
-			typedef myiterator_reverse<const_iterator>			const_reverse_iterator;
+			typedef ft::reverse_iterator<iterator>				reverse_iterator;
+			typedef ft::reverse_iterator<const_iterator>		const_reverse_iterator;
 			typedef std::ptrdiff_t								difference_type;
 			typedef size_t										size_type;
 

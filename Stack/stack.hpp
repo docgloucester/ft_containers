@@ -6,7 +6,7 @@
 /*   By: rgilles <rgilles@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 11:35:47 by rgilles           #+#    #+#             */
-/*   Updated: 2022/01/29 14:53:09 by rgilles          ###   ########.fr       */
+/*   Updated: 2022/01/29 15:50:16 by rgilles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define STACK_HPP
 
 # include <cstddef>
-# include <vector.hpp>
+# include "../Vector/vector.hpp"
 
 namespace ft
 {

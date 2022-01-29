@@ -10,6 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef EQUAL_HPP
+# define EQUAL_HPP
+
 namespace ft
 {
 	template< class InputIt1, class InputIt2 >
@@ -34,3 +37,5 @@ namespace ft
 		return true;
 	}*/
 }
+
+#endif

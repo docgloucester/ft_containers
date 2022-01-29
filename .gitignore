@@ -1,3 +1,4 @@
 *.o
+*.out
 ft_containers
 containers_test/

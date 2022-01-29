@@ -6,14 +6,14 @@
 /*   By: rgilles <rgilles@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/13 16:55:16 by rgilles           #+#    #+#             */
-/*   Updated: 2022/01/27 17:02:16 by rgilles          ###   ########.fr       */
+/*   Updated: 2022/01/29 17:33:00 by rgilles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef VECTOR_ITERATOR
 # define VECTOR_ITERATOR
 
-#include <iterator_traits.hpp>
+#include "../common/iterator_traits.hpp"
 
 namespace ft
 {
@@ -31,7 +31,7 @@ namespace ft
 			vector_iterator()														{}
 			~vector_iterator()														{}
 			template <class Iter>
-			vector_iterator(const vector_iterator<Iter>& it)	: _p(it.getElem())	{}
+			vector_iterator(const vector_iterator<Iter>& it)	: _p(it.base())	{}
 			vector_iterator(const pointer pt)					: _p(pt)			{}
 			self&	operator=(const self& it)
 			{
@@ -40,7 +40,7 @@ namespace ft
 				return (*this);
 			}
 
-			pointer		getElem() const						{return (this->_p);}
+			pointer		base() const						{return (this->_p);}
 			pointer		operator->() const					{return (this->_p);}
 			reference	operator*() const					{return (*this->_p);}
 			reference	operator[](int i) const				{return (this->_p[i]);}
@@ -57,28 +57,21 @@ namespace ft
 			pointer	_p;
 	};
 
-	template <class It1, class It2>
-	typename vector_iterator<It1>::difference_type	operator-(const vector_iterator<It1>& lhs, const vector_iterator<It2>& rhs)	{return(lhs.getElem() - rhs.getElem());}
-	
 	template <class It>
-	vector_iterator<It> operator+(typename vector_iterator<It>::difference_type n, const vector_iterator<It>& it) {return (it.getElem() + n);}
-	
+	vector_iterator<It>								operator+(typename vector_iterator<It>::difference_type n, const vector_iterator<It>& it)	{return (it.base() + n);}
 	template <class It1, class It2>
-	bool	operator==(const vector_iterator<It1>& lhs, const vector_iterator<It2>& rhs)	{return (lhs.getElem() == rhs.getElem());}
-	
+	typename vector_iterator<It1>::difference_type	operator-(const vector_iterator<It1>& lhs, const vector_iterator<It2>& rhs)					{return(lhs.base() - rhs.base());}
 	template <class It1, class It2>
-	bool	operator!=(const vector_iterator<It1>& lhs, const vector_iterator<It2>& rhs)	{return (lhs.getElem() != rhs.getElem());}
-	
+	bool	operator==(const vector_iterator<It1>& lhs, const vector_iterator<It2>& rhs)	{return (lhs.base() == rhs.base());}
 	template <class It1, class It2>
-	bool	operator<(const vector_iterator<It1>& lhs, const vector_iterator<It2>& rhs)	{return (lhs.getElem() < rhs.getElem());}
-	
+	bool	operator!=(const vector_iterator<It1>& lhs, const vector_iterator<It2>& rhs)	{return (lhs.base() != rhs.base());}
 	template <class It1, class It2>
-	bool	operator<=(const vector_iterator<It1>& lhs, const vector_iterator<It2>& rhs)	{return (lhs.getElem() <= rhs.getElem());}
-	
+	bool	operator< (const vector_iterator<It1>& lhs, const vector_iterator<It2>& rhs)	{return (lhs.base() < rhs.base());}
 	template <class It1, class It2>
-	bool	operator>(const vector_iterator<It1>& lhs, const vector_iterator<It2>& rhs)	{return (lhs.getElem() > rhs.getElem());}
-	
+	bool	operator<=(const vector_iterator<It1>& lhs, const vector_iterator<It2>& rhs)	{return (lhs.base() <= rhs.base());}
 	template <class It1, class It2>
-	bool	operator>=(const vector_iterator<It1>& lhs, const vector_iterator<It2>& rhs)	{return (lhs.getElem() >= rhs.getElem());}
+	bool	operator> (const vector_iterator<It1>& lhs, const vector_iterator<It2>& rhs)	{return (lhs.base() > rhs.base());}
+	template <class It1, class It2>
+	bool	operator>=(const vector_iterator<It1>& lhs, const vector_iterator<It2>& rhs)	{return (lhs.base() >= rhs.base());}
 }
 #endif
