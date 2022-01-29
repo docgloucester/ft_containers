@@ -180,8 +180,17 @@ namespace ft
 																								return (position);
 																							}
 			void		insert(iterator position, size_type n, const value_type& val)		{
+																								if (this->_capacity < this->_size + n)
+																								{
+																									std::ptrdiff_t pos = position - this->begin();
+																									this->redimension(this->_size + n);
+																									position = this->begin() + pos;
+																								}
 																								for (size_type i = 0; i < n; i++)
+																								{
 																									this->insert(position, val);
+																									position++;
+																								}
 																							}
 			template <class InputIterator>
 			void		insert(iterator position, typename enable_if<!is_integral<InputIterator>::value, InputIterator>::type first,
