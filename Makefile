@@ -18,7 +18,7 @@ INCL =		common/equal.hpp common/lexicographical-compare.hpp common/enable_if.hpp
 			common/is_integral.hpp common/iterator_traits.hpp common/reverse_iterator.hpp\
 			Stack/stack.hpp \
 			Vector/vector.hpp Vector/vector_iterator.hpp \
-			Map/map.hpp Map/map_iterator.hpp Map/pair.hpp Map/make_pair.hpp Map/bst.hpp
+			Map/map.hpp Map/map_iterator.hpp Map/pair.hpp Map/bst.hpp
 SRCS =		main.cpp
 OBJS =		${SRCS:.cpp=.o}
 

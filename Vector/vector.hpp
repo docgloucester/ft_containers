@@ -6,7 +6,7 @@
 /*   By: rgilles <rgilles@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 10:43:07 by rgilles           #+#    #+#             */
-/*   Updated: 2022/01/29 17:33:03 by rgilles          ###   ########.fr       */
+/*   Updated: 2022/01/30 16:36:39 by rgilles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,9 @@ namespace ft
 			iterator				end()			{return iterator(this->_arr + this->_size);}
 			const_iterator 			end() const		{return const_iterator(this->_arr + this->_size);}
 			reverse_iterator		rbegin()		{return reverse_iterator(this->end());}
-			const_reverse_iterator	rbegin() const	{return const_reverse_iterator(this->begin());}
+			const_reverse_iterator	rbegin() const	{return const_reverse_iterator(this->end());}
 			reverse_iterator		rend()			{return reverse_iterator(this->begin());}
-			const_reverse_iterator	rend() const	{return const_reverse_iterator(this->_arr);}
+			const_reverse_iterator	rend() const	{return const_reverse_iterator(this->begin());}
 
 
 			size_type				size() const					{return (this->_size);}
