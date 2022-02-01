@@ -6,13 +6,14 @@
 /*   By: rgilles <rgilles@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 17:34:35 by rgilles           #+#    #+#             */
-/*   Updated: 2022/01/30 17:27:34 by rgilles          ###   ########.fr       */
+/*   Updated: 2022/02/01 12:48:20 by rgilles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MAP_HPP
 #define MAP_HPP
 
+#include <cstddef>
 #include "bst.hpp"
 #include "pair.hpp"
 #include "map_iterator.hpp"
@@ -20,13 +21,13 @@
 
 namespace ft
 {
-	template < class Key, class T, class Compare = std::less<Key>, class Alloc = std::allocator<ft::pair<const Key,T>>>
+	template < class Key, class T, class Compare = std::less<Key>, class Alloc = std::allocator<ft::pair<const Key,T> > >
 	class map
 	{
 		public:
 			typedef Key											key_type;
 			typedef T											mapped_type;
-			typedef ft::pair<const key_type, mapped_type>			value_type;
+			typedef ft::pair<const key_type, mapped_type>		value_type;
 			typedef size_t										size_type;
 			typedef ptrdiff_t									difference_type;
 			typedef Compare										key_compare;
@@ -41,8 +42,8 @@ namespace ft
 
 			typedef tree_iterator<pointer, node_ptr>			iterator;
 			typedef tree_iterator<const_pointer, node_ptr>		const_iterator;
-			typedef reverse_iterator<iterator>					reverse_iterator;
-			typedef reverse_iterator<const_iterator>			const_reverse_iterator;
+			typedef ft::reverse_iterator<iterator>				reverse_iterator;
+			typedef ft::reverse_iterator<const_iterator>		const_reverse_iterator;
 			class value_compare : std::binary_function<value_type, value_type, bool>
 			{
 				friend class map;
@@ -93,21 +94,21 @@ namespace ft
 			bool		empty() const							{return(this->_tree.size() == 0);}
 			size_type	size() const							{return this->_tree.size();}
 			size_type	max_size() const						{return (this->_tree.max_size());}
-			mapped_type& operator[] (const key_type& k)			{
-																	node_ptr node = this->_tree.search_node(ft::make_pair(k, mapped_type()));
+			mapped_type& operator[] (const key_type& key)		{
+																	node_ptr node = this->_tree.search_node(ft::make_pair(key, mapped_type()));
 																	if (node == NULL)
-																		this->_tree.insert_node(ft::make_pair(k, mapped_type()));
-																	node = this->_tree.search_node(ft::make_pair(k, mapped_type()));
+																		this->_tree.insert_node(ft::make_pair(key, mapped_type()));
+																	node = this->_tree.search_node(ft::make_pair(key, mapped_type()));
 																	return (node->_data.second);
 																}
 			mapped_type&		at(const key_type& key)			{
-																	node_ptr node = this->_tree.search_node(ft::make_pair(k, mapped_type()));
+																	node_ptr node = this->_tree.search_node(ft::make_pair(key, mapped_type()));
 																	if (node == NULL)
 																		throw std::out_of_range("Map doesn't contain key!");
 																	return (node->_data.second);
 																}	
 			const mapped_type&	at(const key_type& key) const	{
-																	node_ptr node = this->_tree.search_node(ft::make_pair(k, mapped_type()));
+																	node_ptr node = this->_tree.search_node(ft::make_pair(key, mapped_type()));
 																	if (node == NULL)
 																		throw std::out_of_range("Map doesn't contain key!");
 																	return (node->_data.second);

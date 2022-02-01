@@ -6,7 +6,7 @@
 /*   By: rgilles <rgilles@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 17:35:16 by rgilles           #+#    #+#             */
-/*   Updated: 2022/01/31 00:03:47 by rgilles          ###   ########.fr       */
+/*   Updated: 2022/02/01 15:55:41 by rgilles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 namespace ft
 {
 	template <class T, class node_ptr>
-	class tree_iterator : public ft::iterator_traits<ft::iterator<std::bidirectional_iterator_tag, T>>
+	class tree_iterator : public ft::iterator_traits<ft::iterator<std::bidirectional_iterator_tag, T> >
 	{
 		public:
 			typedef typename iterator_traits<T>::reference	reference;
@@ -29,47 +29,22 @@ namespace ft
 			explicit tree_iterator(node_ptr ptr)					: _currnode(ptr)		{}
 			template <class T1, class node_ptr1>
 			tree_iterator (const tree_iterator<T1, node_ptr1>& it)	: _currnode(it.base())	{}
+			tree_iterator&	operator=(const tree_iterator& rhs)								{this->_currnode = rhs._currnode; return (*this);}
 
 			node_ptr		base() const		{return this->_currnode;}
 			reference		operator*() const	{return (this->_currnode->_data);}
 			pointer			operator->() const	{return (&(this->_currnode->_data));}
-			tree_iterator&	operator++()		{
-													if (this->_currnode->right)
-													{
-														this->_currnode = this->_currnode->right;
-														while (this->_currnode->left)
-															this->_currnode = this->_currnode->left;
-													}
-													else
-													{
-														while (this->_currnode->parent && this->_currnode == this->_currnode->parent->right)
-															this->_currnode = this->_currnode->parent;
-													}
-													return (*this);
-												}
-			tree_iterator&	operator--()		{
-													if (this->_currnode->left)
-													{
-														this->_currnode = this->_currnode->left;
-														while (this->_currnode->right)
-															this->_currnode = this->_currnode->right;
-													}
-													else
-													{
-														while (this->_currnode->parent && this->_currnode == this->_currnode->parent->left)
-															this->_currnode = this->_currnode->parent;
-													}
-													return (*this);
-												}
+			tree_iterator&	operator++()		{this->_currnode = this->_currnode->increment(); return (*this);}
+			tree_iterator&	operator--()		{this->_currnode = this->_currnode->decrement(); return (*this);}
 			tree_iterator	operator++(int)		{tree_iterator itr(*this); ++(*this); return (itr);}
 			tree_iterator	operator--(int)		{tree_iterator itr(*this); --(*this); return (itr);}
 		private:
 			node_ptr	_currnode;
 	};
-	template <class T, class node_ptr>
-	bool  operator==(const tree_iterator<T, node_ptr>& x, const tree_iterator<T, node_ptr>& y)	{return (x.base() == y.base());}
-	template <class T, class node_ptr>
-	bool  operator!=(const tree_iterator<T, node_ptr>& x, const tree_iterator<T, node_ptr>& y)	{return (!(x == y));}
+	template <class It1, class It2, class node_ptr>
+	bool  operator==(const tree_iterator<It1, node_ptr>& x, const tree_iterator<It2, node_ptr>& y)	{return (x.base() == y.base());}
+	template <class It1, class It2, class node_ptr>
+	bool  operator!=(const tree_iterator<It1, node_ptr>& x, const tree_iterator<It2, node_ptr>& y)	{return (!(x == y));}
 }
 
 #endif

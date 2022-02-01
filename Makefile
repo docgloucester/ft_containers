@@ -11,10 +11,10 @@
 # **************************************************************************** #
 
 NAME =		ft_containers
-CPPC =		c++
+CPPC =		clang++
 CPPFLAGS =	-Wall -Wextra -Werror -std=c++98 -g3
 
-INCL =		common/equal.hpp common/lexicographical-compare.hpp common/enable_if.hpp \
+INCL =		common/equal.hpp common/lexicographical_compare.hpp common/enable_if.hpp \
 			common/is_integral.hpp common/iterator_traits.hpp common/reverse_iterator.hpp\
 			Stack/stack.hpp \
 			Vector/vector.hpp Vector/vector_iterator.hpp \
