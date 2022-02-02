@@ -6,7 +6,7 @@
 /*   By: rgilles <rgilles@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 17:34:35 by rgilles           #+#    #+#             */
-/*   Updated: 2022/02/01 12:48:20 by rgilles          ###   ########.fr       */
+/*   Updated: 2022/02/02 17:46:13 by rgilles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,36 +59,36 @@ namespace ft
 					Compare comp;
 			};
 
-			explicit map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())	: _alloc(alloc), _tree(), _cmp(comp)	{}
+			explicit map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())	: _alloc(alloc), _tree(), _cmp(comp)		{}
 			template <class InputIterator>
 			map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
-																													: _alloc(alloc), _tree(), _cmp(comp)	{
-																																								while (first != last)
-																																								{
-																																									this->_tree.insert_node(*first);
-																																									first++;
+																													: _alloc(alloc), _tree(), _cmp(comp)		{
+																																									while (first != last)
+																																									{
+																																										this->_tree.insert_node(*first);
+																																										first++;
+																																									}
 																																								}
-																																							}
-			map (const map& x)																						: _alloc(x._alloc), _cmp(x._cmp)		{insert(x.begin(), x.end());}
-			~map()																																			{}
-			map& operator= (const map& x)																													{
-																																								if (this != &x)
-																																								{
-																																									this->clear();
-																																									if (x.size() != 0)
-																																										insert(x.begin(), x.end());
+			map (const map& x)																						: _alloc(x._alloc), _tree(x._tree), _cmp(x._cmp)	{}
+			~map()																																				{}
+			map& operator= (const map& x)																														{
+																																									if (this != &x)
+																																									{
+																																										this->_alloc = x._alloc;
+																																										this->_cmp = x._cmp;
+																																										this->_tree = x._tree;
+																																									}
+																																									return (*this);
 																																								}
-																																								return (*this);
-																																							}
-
-			iterator				begin()									{return iterator(this->_tree.get_min());}
-			const_iterator			begin() const							{return const_iterator(this->_tree.get_min());}
-			iterator				end()									{return iterator(this->_tree.get_end());}
-			const_iterator			end() const								{return const_iterator(this->_tree.get_end());}
-			reverse_iterator		rbegin()								{return reverse_iterator(this->end());}
-			const_reverse_iterator	rbegin() const							{return const_reverse_iterator(this->end());}
-			reverse_iterator		rend()									{return reverse_iterator(this->begin());}
-			const_reverse_iterator	rend() const							{return const_reverse_iterator(this->begin());}
+tree getTree() {return(this->_tree);}
+			iterator				begin()			{return iterator(this->_tree.get_min());}
+			const_iterator			begin() const	{return const_iterator(this->_tree.get_min());}
+			iterator				end()			{return iterator(this->_tree.get_end());}
+			const_iterator			end() const		{return const_iterator(this->_tree.get_end());}
+			reverse_iterator		rbegin()		{return reverse_iterator(this->end());}
+			const_reverse_iterator	rbegin() const	{return const_reverse_iterator(this->end());}
+			reverse_iterator		rend()			{return reverse_iterator(this->begin());}
+			const_reverse_iterator	rend() const	{return const_reverse_iterator(this->begin());}
 			
 
 			bool		empty() const							{return(this->_tree.size() == 0);}

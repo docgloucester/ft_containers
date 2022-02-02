@@ -6,7 +6,7 @@
 /*   By: rgilles <rgilles@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 17:35:28 by rgilles           #+#    #+#             */
-/*   Updated: 2022/02/01 15:25:45 by rgilles          ###   ########.fr       */
+/*   Updated: 2022/02/02 18:38:33 by rgilles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ namespace ft
 								{
 									while (ret->parent && ret == ret->parent->right)
 										ret = ret->parent;
-									ret = ret->parent; // FIX : ssi il existe
+									ret = ret->parent;
 								}
 								return (ret);
 							}
@@ -54,7 +54,7 @@ namespace ft
 								{
 									while (ret->parent && ret == ret->parent->left)
 										ret = ret->parent;
-									ret = ret->parent; // FIX : ssi il existe
+									ret = ret->parent;
 								}
 								return (ret);
 							}
@@ -71,13 +71,40 @@ namespace ft
 			typedef size_t														size_type;
 
 		
-			BST(const allocator_type& alloc = allocator_type(), const key_compare& comp = key_compare())	: _alloc(alloc), _cmp(comp), _size(0), _root(NULL), _end(NULL)	{}
-			~BST()																																							{this->clear();}
+			BST(const allocator_type& alloc = allocator_type(), const key_compare& comp = key_compare())	: _alloc(alloc), _cmp(comp), _size(0), _root(NULL), _end(NULL)			{}
+			~BST()																																									{this->clear();}
+			BST(const BST& cpy)																				: _alloc(cpy._alloc), _cmp(cpy._cmp), _size(0), _root(NULL), _end(NULL)	{
+																																														node_ptr	tmp = cpy.get_min();
+																																														while (tmp != cpy._end)
+																																														{
+																																															this->insert_node(tmp->_data);
+																																															tmp = tmp->increment();
+																																														}
+																																													}
+			BST&	operator=(const BST& cpy)																																		{
+																																														if (this != &cpy)
+																																														{
+																																															this->_alloc = cpy._alloc;
+																																															this->_cmp = cpy._cmp;
+																																															this->clear();
+																																															node_ptr	tmp = cpy.get_min();
+																																															while (tmp != cpy._end)
+																																															{
+																																																std::cout << "Tree is now :" << std::endl;
+																																																this->print2D();
+																																																std::cout << "-----------------" << std::endl;
+																																																this->insert_node(tmp->_data);
+																																																tmp = tmp->increment();
+																																															}
+																																														}
+																																														return (*this);
+																																													}
+
 			//Getters
 			allocator_type	get_alloc() const			{return allocator_type();}
 			size_type		size() const				{return this->_size;}
 			size_type		max_size() const			{return (this->_alloc.max_size());}
-			void			print_bst()					{print_from(this->_root);}
+			void			print() const				{print2DUtil(this->_root, 0);}
 			node_ptr		get_max() const				{
 															if (!this->_root)
 																return NULL;
@@ -98,59 +125,57 @@ namespace ft
 
 			//Modifiers
 			void		clear()								{
-																_root = erase_tree(_root);
-																if (_root == NULL)
+																this->_root = erase_tree(this->_root);
+																if (this->_root == NULL)
 																{
-																	_alloc.deallocate(_end, 1);
-																	_end = NULL;
+																	this->_alloc.deallocate(this->_end, 1);
+																	this->_end = NULL;
 																}
 																_size = 0;
 															}
 			void		insert_node(value_type data)		{
-																node_ptr new_node = _alloc.allocate(1);
-																_alloc.construct(new_node, data);
+																node_ptr new_node = this->_alloc.allocate(1);
+																this->_alloc.construct(new_node, data);
 																new_node->left = NULL;
 																new_node->right = NULL;
 																new_node->parent = NULL;
 																new_node->bf = 0;
-
-																if (_root == NULL)
+																if (this->_root == NULL)
 																{
-																	_end = _alloc.allocate(1);
-																	_root = new_node;
-																	_root->parent = _end;
-																	_end->left = _root;
-																	_size++;
+																	this->_end = this->_alloc.allocate(1);
+																	this->_root = new_node;
+																	this->_root->parent = this->_end;
+																	this->_end->left = this->_root;
+																	this->_size++;
 																	return ;
 																}
-																node_ptr tmp = _root;
+																node_ptr tmp = this->_root;
 																node_ptr parent = NULL;
 																while (tmp != NULL)
 																{
 																	parent = tmp;
-																	if (_cmp(new_node->_data.first, tmp->_data.first))
+																	if (this->_cmp(new_node->_data.first, tmp->_data.first))
 																		tmp = tmp->left;
 																	else if (new_node->_data.first == tmp->_data.first)
 																	{
 																		tmp->_data.second = new_node->_data.second;
-																		_alloc.deallocate(new_node, 1);
+																		this->_alloc.deallocate(new_node, 1);
 																		return ;
 																	}
 																	else
 																		tmp = tmp->right;
 																}
-																if (_cmp(new_node->_data.first, parent->_data.first))
+																if (this->_cmp(new_node->_data.first, parent->_data.first))
 																{
 																	parent->left = new_node;
-																	_size++;
+																	this->_size++;
 																}
 																else
 																{
 																	parent->right = new_node;
-																	_size++;
+																	this->_size++;
 																}
 																new_node->parent = parent;
-																//NOTE - Calcule bf every node
 																insert_balance_factor(new_node);
 															}
 /*			node_ptr	search_node(value_type val)			{
@@ -249,13 +274,16 @@ namespace ft
 			node_ptr		_root;
 			node_ptr		_end;
 
-			void		print_from(node_ptr root)	{
-																if (root != NULL)
-																{
-																	std::cout <<root->_data.first << "\t"<< root->bf << std::endl;
-																	print_from(root->left);
-																	print_from(root->right);
-																}
+			void		print2DUtil(node_ptr root, int spc) const	{
+															    if (root == NULL)
+															        return;
+															    spc += 10;
+															    print2DUtil(root->right, spc);
+															    std::cout << std::endl;
+															    for (int i = 10; i < spc; i++)
+															        std::cout << " ";
+															    std::cout << "[" << root->_data.first <<", " << root->_data.second << "]" << std::endl;
+															    print2DUtil(root->left, spc);
 															}
 			node_ptr	erase_tree(node_ptr node)			{
 																if (node != NULL)

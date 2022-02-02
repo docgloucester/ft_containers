@@ -11,7 +11,7 @@
 # **************************************************************************** #
 
 NAME =		ft_containers
-CPPC =		clang++
+CPPC =		g++
 CPPFLAGS =	-Wall -Wextra -Werror -std=c++98 -g3
 
 INCL =		common/equal.hpp common/lexicographical_compare.hpp common/enable_if.hpp \
