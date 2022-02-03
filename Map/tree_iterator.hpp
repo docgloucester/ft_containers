@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map_iterator.hpp                                   :+:      :+:    :+:   */
+/*   tree_iterator.hpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgilles <rgilles@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 17:35:16 by rgilles           #+#    #+#             */
-/*   Updated: 2022/02/01 15:55:41 by rgilles          ###   ########.fr       */
+/*   Updated: 2022/02/03 15:17:47 by rgilles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ITERATOR_MAP_HPP
-#define ITERATOR_MAP_HPP
+#ifndef TREE_ITERATOR_HPP
+#define TREE_ITERATOR_HPP
 
 #include "../common/iterator_traits.hpp"
 

@@ -6,7 +6,7 @@
 /*   By: rgilles <rgilles@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 17:34:35 by rgilles           #+#    #+#             */
-/*   Updated: 2022/02/02 17:46:13 by rgilles          ###   ########.fr       */
+/*   Updated: 2022/02/03 15:18:10 by rgilles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <cstddef>
 #include "bst.hpp"
 #include "pair.hpp"
-#include "map_iterator.hpp"
+#include "tree_iterator.hpp"
 #include "../common/reverse_iterator.hpp"
 
 namespace ft
@@ -163,8 +163,6 @@ tree getTree() {return(this->_tree);}
 																							iterator tmp;
 																							while (first != last)
 																							{
-																								if (first == this->end())
-																									return ;
 																								tmp = first;
 																								first++;
 																								this->erase(tmp);
