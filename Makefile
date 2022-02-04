@@ -23,7 +23,7 @@ SRCS =		main.cpp
 OBJS =		${SRCS:.cpp=.o}
 
 
-%.o:		%.cpp ${INCL}
+%.o:		%.cpp ${INCL} Makefile
 	${CPPC} ${CPPFLAGS} -c $< -o $@
 
 all:		${NAME}

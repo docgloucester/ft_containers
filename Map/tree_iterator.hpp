@@ -6,7 +6,7 @@
 /*   By: rgilles <rgilles@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 17:35:16 by rgilles           #+#    #+#             */
-/*   Updated: 2022/02/04 12:22:51 by rgilles          ###   ########.fr       */
+/*   Updated: 2022/02/04 17:48:45 by rgilles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,17 @@
 namespace ft
 {
 	template <typename T>
-	struct	node
+	struct node
 	{
 		node(const T& src = T())	: data(src), parent(NULL), left(NULL), right(NULL) {};
 		T			data;
-		node		*parent;
-		node		*left;
-		node		*right;
+		node*		parent;
+		node*		left;
+		node*		right;
 	};
 
 	template <typename T>
-	node<T>	*rightmost(node<T> *node)
+	node<T>*	rightmost(node<T>* node)
 	{
 		while (node->right != NULL)
 			node = node->right;
@@ -36,7 +36,7 @@ namespace ft
 	}
 
 	template <typename T>
-	node<T>	*leftmost(node<T> *node)
+	node<T>*	leftmost(node<T>* node)
 	{
 		while (node->left != NULL)
 			node = node->left;
@@ -55,8 +55,8 @@ namespace ft
 
 			tree_iterator(node_type* src = NULL)	: _node(src)	{}
 			tree_iterator(const tree_iterator &src)					{*this = src;}
-			virtual ~tree_iterator(void)							{}
-			tree_iterator	&operator=(tree_iterator const &rhs)	{
+			~tree_iterator(void)									{}
+			tree_iterator&	operator=(tree_iterator const &rhs)	{
 																		if (this == &rhs)
 																			return (*this);
 																		this->_node = rhs._node;
@@ -67,12 +67,12 @@ namespace ft
 			node_type*		base() const			{return (this->_node);}
 			reference		operator*(void) const	{return (this->_node->data);}
 			pointer			operator->(void) const	{return &this->operator*();}
-			tree_iterator	&operator++(void)		{
+			tree_iterator&	operator++(void)		{
 														if (this->_node->right != NULL)
 															this->_node = leftmost(this->_node->right);
 														else
 														{
-															node_type	*child = this->_node;
+															node_type*	child = this->_node;
 															this->_node = this->_node->parent;
 															while (this->_node && child == this->_node->right)
 															{
@@ -82,12 +82,12 @@ namespace ft
 														}
 														return (*this);
 													}
-			tree_iterator	&operator--(void)		{
+			tree_iterator&	operator--(void)		{
 														if (this->_node->left != NULL)
 															this->_node = rightmost(this->_node->left);
 														else
 														{
-															node_type	*child = this->_node;
+															node_type*	child = this->_node;
 															this->_node = this->_node->parent;
 															while (this->_node && child == this->_node->left)
 															{
@@ -99,6 +99,7 @@ namespace ft
 													}
 			tree_iterator	operator++(int)			{tree_iterator tmp(*this); ++(*this); return (tmp);}
 			tree_iterator	operator--(int)			{tree_iterator tmp(*this); --(*this); return (tmp);}
+			
 			template <class U>
 			bool			operator==(const tree_iterator<U, node_type> &rhs) const	{return (this->_node == rhs.base());}
 			template <class U>
