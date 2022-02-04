@@ -44,12 +44,14 @@ namespace ft
 	}
 
 	template <typename T, typename node_type>
-	class tree_iterator {
+	class tree_iterator : ft::iterator_traits< ft::iterator< std::bidirectional_iterator_tag, T > >
+	{
 		public:
-			typedef T						value_type;
-			typedef std::ptrdiff_t			difference_type;
-			typedef value_type&				reference;
-			typedef value_type*				pointer;
+			typedef typename  ft::iterator_traits< ft::iterator< std::bidirectional_iterator_tag, T > >::iterator_category	iterator_category;
+			typedef typename  ft::iterator_traits< ft::iterator< std::bidirectional_iterator_tag, T > >::value_type			value_type;
+			typedef typename  ft::iterator_traits< ft::iterator< std::bidirectional_iterator_tag, T > >::difference_type	difference_type;
+			typedef typename  ft::iterator_traits< ft::iterator< std::bidirectional_iterator_tag, T > >::reference			reference;
+			typedef typename  ft::iterator_traits< ft::iterator< std::bidirectional_iterator_tag, T > >::pointer			pointer;
 
 			tree_iterator(node_type* src = NULL)	: _node(src)	{}
 			tree_iterator(const tree_iterator &src)					{*this = src;}
