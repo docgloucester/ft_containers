@@ -6,13 +6,13 @@
 #    By: rgilles <rgilles@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/04 14:47:57 by rgilles           #+#    #+#              #
-#    Updated: 2022/02/03 16:11:17 by rgilles          ###   ########.fr        #
+#    Updated: 2022/02/05 14:55:05 by rgilles          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME =		ft_containers
 CPPC =		clang++
-CPPFLAGS =	-Wall -Wextra -Werror -std=c++98 -g3
+CPPFLAGS =	-Wall -Wextra -Werror -std=c++98 -g3 -IMap -IVector -IStack
 
 INCL =		common/equal.hpp common/lexicographical_compare.hpp common/enable_if.hpp \
 			common/is_integral.hpp common/iterator_traits.hpp common/reverse_iterator.hpp\

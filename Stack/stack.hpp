@@ -26,26 +26,26 @@ namespace ft
 		typedef Container container_type;
 		typedef	size_t size_type;
 
-		explicit stack(const container_type& ctnr = container_type()): _c(ctnr) {};
-		stack(const stack<T, Container>& src): _c(src._c) {};
+		explicit stack(const container_type& ctnr = container_type()): c(ctnr) {};
+		stack(const stack<T, Container>& src): c(src.c) {};
 		~stack() {};
-		stack<T, Container>&	operator=(const stack<T, Container>& src) {this->_c = src._c; return (*this);};
+		stack<T, Container>&	operator=(const stack<T, Container>& src) {this->c = src.c; return (*this);};
 
-		bool					empty() const {return (this->_c.empty());};
-		size_type				size() const {return (this->_c.size());};
-		value_type&				top() {return (this->_c.back());};
-		const value_type& 		top() const {return (this->_c.back());};
-		void					push(const value_type& val) {this->_c.push_back(val);};
-		void					pop() {this->_c.pop_back();}
+		bool					empty() const {return (this->c.empty());};
+		size_type				size() const {return (this->c.size());};
+		value_type&				top() {return (this->c.back());};
+		const value_type& 		top() const {return (this->c.back());};
+		void					push(const value_type& val) {this->c.push_back(val);};
+		void					pop() {this->c.pop_back();}
 
-		friend bool	operator==(const stack<T,Container>& lhs, const stack<T,Container>& rhs)	{return (lhs._c == rhs._c);}
-		friend bool	operator!=(const stack<T,Container>& lhs, const stack<T,Container>& rhs)	{return (lhs._c != rhs._c);}
-		friend bool	operator<(const stack<T,Container>& lhs, const stack<T,Container>& rhs)		{return (lhs._c < rhs._c);}
-		friend bool	operator<=(const stack<T,Container>& lhs, const stack<T,Container>& rhs)	{return (lhs._c <= rhs._c);}
-		friend bool	operator>(const stack<T,Container>& lhs, const stack<T,Container>& rhs)		{return (lhs._c > rhs._c);}
-		friend bool	operator>=(const stack<T,Container>& lhs, const stack<T,Container>& rhs)	{return (lhs._c >= rhs._c);}
+		friend bool	operator==(const stack<T,Container>& lhs, const stack<T,Container>& rhs)	{return (lhs.c == rhs.c);}
+		friend bool	operator!=(const stack<T,Container>& lhs, const stack<T,Container>& rhs)	{return (lhs.c != rhs.c);}
+		friend bool	operator<(const stack<T,Container>& lhs, const stack<T,Container>& rhs)		{return (lhs.c < rhs.c);}
+		friend bool	operator<=(const stack<T,Container>& lhs, const stack<T,Container>& rhs)	{return (lhs.c <= rhs.c);}
+		friend bool	operator>(const stack<T,Container>& lhs, const stack<T,Container>& rhs)		{return (lhs.c > rhs.c);}
+		friend bool	operator>=(const stack<T,Container>& lhs, const stack<T,Container>& rhs)	{return (lhs.c >= rhs.c);}
 	protected:
-		container_type _c;
+		container_type c;
 	};
 }
 #endif

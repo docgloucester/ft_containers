@@ -6,7 +6,7 @@
 /*   By: rgilles <rgilles@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 17:34:35 by rgilles           #+#    #+#             */
-/*   Updated: 2022/02/04 17:30:19 by rgilles          ###   ########.fr       */
+/*   Updated: 2022/02/05 18:42:16 by rgilles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,26 +162,32 @@ namespace ft
 
 			size_type		count(const key_type& k) const	{return (find(k) != this->end() ? 1 : 0);}
 			iterator		find(const key_type& k)			{
-																iterator	it = this->begin();
-																iterator	ite = this->end();
-																while (it != ite)
+																node_ptr	curr = this->_root;
+																while (curr && (this->_cmp(curr->data.first, k) || this->_cmp(k, curr->data.first)))
 																{
-																	if (!this->_cmp(it->first, k) && !this->_cmp(k, it->first))
-																		break ;
-																	++it;
+																	if (this->_cmp(k, curr->data.first))
+																		curr = curr->left;
+																	else
+																		curr = curr->right;
 																}
-																return (it);
+																if (curr)
+																	return (iterator(curr));
+																else
+																	return (this->end());
 															}
 			const_iterator	find(const key_type& k) const	{
-																const_iterator	it = this->begin();
-																const_iterator	ite = this->end();
-																while (it != ite)
+																node_ptr	curr = this->_root;
+																while (curr && (this->_cmp(curr->data.first, k) || this->_cmp(k, curr->data.first)))
 																{
-																	if (!this->_cmp(it->first, k) && !this->_cmp(k, it->first))
-																		break ;
-																	++it;
+																	if (this->_cmp(k, curr->data.first))
+																		curr = curr->left;
+																	else
+																		curr = curr->right;
 																}
-																return (it);
+																if (curr)
+																	return (const_iterator(curr));
+																else
+																	return (this->end());
 															}
 
 			iterator								lower_bound(const key_type& k)			{
@@ -259,13 +265,13 @@ namespace ft
 																	node_ptr*	parent = &this->_root;
 																	node_ptr*	curr = &this->_root;
 																	node_ptr	endnode = rightmost(this->_root);
-																	bool		side_left = -1;
+																	bool		which_direction;
 																	++this->_size;
 																	while (*curr && *curr != endnode)
 																	{
 																		parent = curr;
-																		side_left = _val_compare(to_add->data, (*curr)->data); //this->_cmp(to_add->data.first, (*curr)->data.first);
-																		curr = (side_left ? &(*curr)->left : &(*curr)->right);
+																		which_direction = _val_compare(to_add->data, (*curr)->data);
+																		curr = (which_direction ? &(*curr)->left : &(*curr)->right);
 																	}
 																	if (*curr == NULL)
 																	{
@@ -279,42 +285,121 @@ namespace ft
 																		endnode->parent = rightmost(to_add);
 																		rightmost(to_add)->right = endnode;
 																	}
+																	this->_balance_on_insert(to_add);
 																}
 			void				_del_node(node_ptr to_del)		{
-																	node_ptr	substitute = NULL;
-																	node_ptr*	del_location = &this->_root;
-
-																	--this->_size;
-																	if (to_del->parent)
-																		del_location = (to_del->parent->left == to_del ? &to_del->parent->left : &to_del->parent->right);
-																	if (to_del->left == NULL && to_del->right == NULL)
-																		;
-																	else if (to_del->left == NULL)
-																		substitute = to_del->right;
+																	if (!to_del->left)
+																	{
+																		if (!to_del->parent)
+																			this->_root = to_del->right;
+																		else if (to_del == to_del->parent->left)
+																			to_del->parent->left = to_del->right;
+																		else
+																			to_del->parent->right = to_del->right;
+																		if (to_del->right)
+																			to_del->right->parent = to_del->parent;
+																	}
+																	else if (!to_del->right)
+																	{
+																		if (!to_del->parent)
+																			this->_root = to_del->left;
+																		else if (to_del == to_del->parent->left)
+																			to_del->parent->left = to_del->left;
+																		else
+																			to_del->parent->right = to_del->left;
+																		to_del->left->parent = to_del->parent;
+																	}
 																	else
 																	{
-																		substitute = rightmost(to_del->left);
-																		if (substitute != to_del->left)
-																			if ((substitute->parent->right = substitute->left))
-																				substitute->left->parent = substitute->parent;
-																	}
-																	if (substitute)
-																	{
-																		substitute->parent = to_del->parent;
-																		if (to_del->left && to_del->left != substitute)
+																		node_ptr	successor = leftmost(to_del->right);
+																		if (!(to_del == successor->parent))
 																		{
-																			substitute->left = to_del->left;
-																			substitute->left->parent = substitute;
+																			if (successor == successor->parent->left)
+																				successor->parent->left = successor->right;
+																			else
+																				successor->parent->right = successor->right;
+																			if (successor->right != NULL)
+																				successor->right->parent = successor->parent;
+																			successor->right = to_del->right;
+																			successor->right->parent = successor;
+																			
 																		}
-																		if (to_del->right && to_del->right != substitute)
-																		{
-																			substitute->right = to_del->right;
-																			substitute->right->parent = substitute;
-																		}
+																		if (!to_del->parent)
+																			this->_root = successor;
+																		else if (to_del == to_del->parent->left)
+																			to_del->parent->left = successor;
+																		else
+																			to_del->parent->right = successor;
+																		successor->parent = to_del->parent;
+																		successor->left = to_del->left;
+																		successor->left->parent = successor;
+
 																	}
-																	*del_location = substitute;
-																	this->_alloc.deallocate(to_del, 1);;
+																	--this->_size;
+																	this->_alloc.deallocate(to_del, 1);
 																}
+
+			node_ptr	_rotate_left(node_ptr to_rotate)	{
+																node_ptr	r = to_rotate->right;
+																to_rotate->right = r->left;
+																r->left = to_rotate;
+																to_rotate->height = std::max(to_rotate->right->height, to_rotate->left->height) + 1;
+																r->height = std::max(r->right->height, r->left->height) + 1;
+																return (r);
+															}
+			node_ptr	_rotate_right(node_ptr to_rotate)	{
+																node_ptr	l = to_rotate->left;
+																to_rotate->left = l->right;
+																l->right = to_rotate;
+																to_rotate->height = std::max(to_rotate->right->height, to_rotate->left->height) + 1;
+																l->height = std::max(l->right->height, l->left->height) + 1;
+																return (l);
+															}
+			node_ptr	_rotate_right_left(node_ptr to_rot)	{
+																to_rot->right = this->_rotate_right(to_rot->right);
+																to_rot = this->_rotate_left(to_rot);
+																to_rot->height = std::max(to_rot->left->height, to_rot->right->height) + 1;
+																return (to_rot);
+															}
+			node_ptr	_rotate_left_right(node_ptr to_rot)	{
+																to_rot->left = this->_rotate_left(to_rot->left);
+																to_rot = this->_rotate_right(to_rot);
+																to_rot->height = std::max(to_rot->left->height, to_rot->right->height) + 1;
+																return (to_rot);
+															}
+			node_ptr	_rebalance(node_ptr	start)			{
+																if (start->get_bal() < -1 && start->left->get_bal() == -1)
+																	return (this->_rotate_right(start));
+																else
+																if (start->get_bal() >  1 && start->right->get_bal() == 1)
+																	return (this->_rotate_left(start));
+																else
+																if (start->get_bal() < -1 && start->left->get_bal() == 1)
+																	return (this->_rotate_left_right(start));
+																else
+																if (start->get_bal() >  1 && start->right->get_bal() == -1)
+																	return (this->_rotate_right_left(start));
+																else
+																	return (start);	
+			}
+			void		_balance_on_insert(node_ptr start)	{
+																if (start->get_bal() < -1 || start->get_bal() > 1)
+																{
+																	this->_rebalance(start);
+																	return ;
+																}
+																if (start->parent)
+																{
+																	node_ptr tmp = start;
+																	while (tmp != this->_root)
+																	{
+																		tmp->parent->height++;
+																		tmp = tmp->parent;
+																	}
+																	this->_rebalance(start->parent);
+																}
+																	
+			}
 
 	};
 

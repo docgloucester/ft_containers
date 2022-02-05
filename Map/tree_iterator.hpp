@@ -6,7 +6,7 @@
 /*   By: rgilles <rgilles@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 17:35:16 by rgilles           #+#    #+#             */
-/*   Updated: 2022/02/05 01:14:29 by rgilles          ###   ########.fr       */
+/*   Updated: 2022/02/05 14:54:18 by rgilles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,14 @@ namespace ft
 	template <typename T>
 	struct node
 	{
-		node(const T& src = T())	: data(src), parent(NULL), left(NULL), right(NULL) {};
 		T			data;
 		node*		parent;
 		node*		left;
 		node*		right;
-		private:
-		int		_unused;
+		int			height;
+
+		node(const T& src = T())	: data(src), parent(NULL), left(NULL), right(NULL), height(1) {};
+		int	get_bal()	{return ((this->right ? this->right->height : 0) - (this->left ? this->left->height : 0));}
 	};
 
 	template <typename T>
