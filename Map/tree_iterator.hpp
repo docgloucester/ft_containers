@@ -6,7 +6,7 @@
 /*   By: rgilles <rgilles@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 17:35:16 by rgilles           #+#    #+#             */
-/*   Updated: 2022/02/04 17:48:45 by rgilles          ###   ########.fr       */
+/*   Updated: 2022/02/05 01:14:29 by rgilles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ namespace ft
 		node*		parent;
 		node*		left;
 		node*		right;
+		private:
+		int		_unused;
 	};
 
 	template <typename T>
