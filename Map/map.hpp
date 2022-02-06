@@ -288,7 +288,6 @@ namespace ft
 																		endnode->parent = rightmost(to_add);
 																		rightmost(to_add)->right = endnode;
 																	}
-																	//this->_balance_on_insert(to_add);
 																}
 			void				_del_node(node_ptr to_del)		{
 																	if (!to_del->left)

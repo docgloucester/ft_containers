@@ -11,9 +11,12 @@
 # define NS ft
 #endif
 
+#define STR(X) #X
+#define ASSTR(X) STR(X)
+
 int main()
 {
-    std::cout << "Testing NS containers" << std::endl << std::endl;
+    std::cout << "Testing " << ASSTR(NS) << " containers" << std::endl << std::endl;
 
     std::cout << "*************************************************************************" << std::endl;
     std::cout << "\t\t\t\tStack" << std::endl;
