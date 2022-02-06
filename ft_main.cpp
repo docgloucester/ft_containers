@@ -1,21 +1,24 @@
 #include <iostream>
 #include <string>
 #include <deque>
-#ifdef STD
-	#include <map>
-	#include <stack>
-	#include <vector>
-	namespace ft = std;
-#else
-	#include <map.hpp>
-	#include <stack.hpp>
-	#include <vector.hpp>
+#include <map>
+#include <stack>
+#include <vector>
+#include <map.hpp>
+#include <stack.hpp>
+#include <vector.hpp>
+
+#ifndef NS
+# define NS ft
 #endif
+
+
 
 #include <stdlib.h>
 
 #define MAX_RAM 4294967296
 #define BUFFER_SIZE 4096
+
 struct Buffer
 {
 	int idx;
@@ -26,7 +29,7 @@ struct Buffer
 #define COUNT (MAX_RAM / (int)sizeof(Buffer))
 
 template<typename T>
-class MutantStack : public ft::stack<T>
+class MutantStack : public NS::stack<T>
 {
 public:
 	MutantStack() {}
@@ -38,13 +41,19 @@ public:
 	}
 	~MutantStack() {}
 
-	typedef typename ft::stack<T>::container_type::iterator iterator;
+	typedef typename NS::stack<T>::container_type::iterator iterator;
 
 	iterator begin() { return this->c.begin(); }
 	iterator end() { return this->c.end(); }
 };
 
 int main(int argc, char** argv) {
+
+	#if NS == ft
+	std::cout << "This is the 42 binary" << std::endl;
+	#elif
+	std::cout << "This is the STD binary" << std::endl;
+	#endif
 	if (argc != 2)
 	{
 		std::cerr << "Usage: ./test seed" << std::endl;
@@ -55,12 +64,12 @@ int main(int argc, char** argv) {
 	const int seed = atoi(argv[1]);
 	srand(seed);
 
-	ft::vector<std::string> vector_str;
-	ft::vector<int> vector_int;
-	ft::stack<int> stack_int;
-	ft::vector<Buffer> vector_buffer;
-	ft::stack<Buffer, std::deque<Buffer> > stack_deq_buffer;
-	ft::map<int, int> map_int;
+	NS::vector<std::string> vector_str;
+	NS::vector<int> vector_int;
+	NS::stack<int> stack_int;
+	NS::vector<Buffer> vector_buffer;
+	NS::stack<Buffer, std::deque<Buffer> > stack_deq_buffer;
+	NS::map<int, int> map_int;
 
 	for (int i = 0; i < COUNT; i++)
 	{
@@ -72,7 +81,7 @@ int main(int argc, char** argv) {
 		const int idx = rand() % COUNT;
 		vector_buffer[idx].idx = 5;
 	}
-	ft::vector<Buffer>().swap(vector_buffer);
+	NS::vector<Buffer>().swap(vector_buffer);
 
 	try
 	{
@@ -90,7 +99,7 @@ int main(int argc, char** argv) {
 	
 	for (int i = 0; i < COUNT; ++i)
 	{
-		map_int.insert(ft::make_pair(rand(), rand()));
+		map_int.insert(NS::make_pair(rand(), rand()));
 	}
 
 	int sum = 0;
@@ -101,9 +110,6 @@ int main(int argc, char** argv) {
 	}
 	std::cout << "should be constant with the same seed: " << sum << std::endl;
 
-	/*{
-		ft::map<int, int> copy = map_int;
-	}*/
 	MutantStack<char> iterable_stack;
 	for (char letter = 'a'; letter <= 'z'; letter++)
 		iterable_stack.push(letter);

@@ -6,7 +6,7 @@
 #    By: rgilles <rgilles@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/04 14:47:57 by rgilles           #+#    #+#              #
-#    Updated: 2022/02/05 21:32:48 by rgilles          ###   ########.fr        #
+#    Updated: 2022/02/06 02:34:40 by rgilles          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,9 @@ ${NAME}:	${OBJS}
 	${CPPC} ${CPPFLAGS} -o ${NAME} ${OBJS}
 
 test:		${TOBJS}
-	${CPPC} ${CPPFLAGS} -o ${NAME}_test ${TOBJS}
+	${CPPC} ${CPPFLAGS} -o ${NAME}_test_ft ${TOBJS}
+	${CPPC} ${CPPFLAGS} -D NS=std -c ${TSRCS} -o ${TOBJS}
+	${CPPC} ${CPPFLAGS} -o ${NAME}_test_std ${TOBJS}
 
 clean:
 	rm -f ${OBJS} ${TOBJS}

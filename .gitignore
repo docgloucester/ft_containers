@@ -2,5 +2,7 @@
 *.out
 ft_containers
 ft_containers_test
+ft_containers_test_std
+ft_containers_test_ft
 containers_test/
 42TESTERS-CONTAINERS/
