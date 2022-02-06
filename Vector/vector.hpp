@@ -6,7 +6,7 @@
 /*   By: rgilles <rgilles@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 10:43:07 by rgilles           #+#    #+#             */
-/*   Updated: 2022/02/06 16:53:06 by rgilles          ###   ########.fr       */
+/*   Updated: 2022/02/06 18:06:04 by rgilles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,7 +187,8 @@ namespace ft
 																								if (this->_size + n > this->_capacity)
 																								{
 																									std::ptrdiff_t pos = position - this->begin();
-																									this->redimension(this->_size + n);
+																									while (this->_capacity < this->_size + n)
+																										this->redimension(this->_capacity == 0 ? 1 : this->_capacity * 2);
 																									position = this->begin() + pos;
 																								}
 																								for (size_type i = 0; i < n; i++)
@@ -207,7 +208,8 @@ namespace ft
 																									count++;
 																									tmp++;
 																								}
-																								this->reserve(this->_size + count);
+																								while (this->_capacity < this->_size + count)
+																									this->reserve(this->_capacity == 0 ? 1 : this->_capacity * 2);
 																								for (std::ptrdiff_t i = this->_size; i > pos; i--)
 																									this->_alloc.construct(_arr + i - 1 + count, this->_arr[i - 1]);
 																								std::ptrdiff_t	former_size = this->_size;

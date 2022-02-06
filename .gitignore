@@ -1,7 +1,9 @@
+*.o_ft
+*.o_std
 *.o
 *.out
-ft_containers
-ft_containers_test
+ft_containers_ft
+ft_containers_std
 ft_containers_test_std
 ft_containers_test_ft
 containers_test/

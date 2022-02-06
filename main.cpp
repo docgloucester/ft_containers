@@ -13,13 +13,15 @@
 
 int main()
 {
+    std::cout << "Testing NS containers" << std::endl << std::endl;
+
     std::cout << "*************************************************************************" << std::endl;
     std::cout << "\t\t\t\tStack" << std::endl;
     std::cout << "*************************************************************************" << std::endl;
 
     {
         std::cout << "\n------------- FT Stack (Constructor)-------------" << std::endl;
-        NS::vector<int> myvector (2,200);
+        NS::vector<int> myvector(2,200);
         NS::stack<int> first;
         NS::stack<int,NS::vector<int> > second;
         NS::stack<int,NS::vector<int> > third(myvector);

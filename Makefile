@@ -6,7 +6,7 @@
 #    By: rgilles <rgilles@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/04 14:47:57 by rgilles           #+#    #+#              #
-#    Updated: 2022/02/06 02:34:40 by rgilles          ###   ########.fr        #
+#    Updated: 2022/02/06 17:53:35 by rgilles          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,29 +20,34 @@ INCL =		common/equal.hpp common/lexicographical_compare.hpp common/enable_if.hpp
 			Vector/vector.hpp Vector/vector_iterator.hpp \
 			Map/map.hpp Map/tree_iterator.hpp Map/pair.hpp
 SRCS =		main.cpp
-OBJS =		${SRCS:.cpp=.o}
+FT_OBJS =	${SRCS:.cpp=.o_ft}
+STD_OBJS =	${SRCS:.cpp=.o_std}
+
 TSRCS =		ft_main.cpp
-TOBJS =		${TSRCS:.cpp=.o}
+FT_TOBJS =	${TSRCS:.cpp=.o_ft}
+STD_TOBJS =	${TSRCS:.cpp=.o_std}
 
 
-%.o:		%.cpp ${INCL} Makefile
-	${CPPC} ${CPPFLAGS} -c $< -o $@
+%.o_ft:		%.cpp ${INCL} Makefile
+	${CPPC} ${CPPFLAGS}          -c $< -o $@
+%.o_std:	%.cpp ${INCL} Makefile
+	${CPPC} ${CPPFLAGS} -DNS=std -c $< -o $@
 
 all:		${NAME}
 
-${NAME}:	${OBJS}
-	${CPPC} ${CPPFLAGS} -o ${NAME} ${OBJS}
+${NAME}:	${FT_OBJS} ${STD_OBJS}
+	${CPPC} ${CPPFLAGS} -o ${NAME}_ft  ${FT_OBJS}
+	${CPPC} ${CPPFLAGS} -o ${NAME}_std ${STD_OBJS}
 
-test:		${TOBJS}
-	${CPPC} ${CPPFLAGS} -o ${NAME}_test_ft ${TOBJS}
-	${CPPC} ${CPPFLAGS} -D NS=std -c ${TSRCS} -o ${TOBJS}
-	${CPPC} ${CPPFLAGS} -o ${NAME}_test_std ${TOBJS}
+test:		${FT_TOBJS} ${STD_TOBJS}
+	${CPPC} ${CPPFLAGS} -o ${NAME}_test_ft  ${FT_TOBJS}
+	${CPPC} ${CPPFLAGS} -o ${NAME}_test_std ${STD_TOBJS}
 
 clean:
-	rm -f ${OBJS} ${TOBJS}
+	rm -f ${FT_OBJS} ${STD_OBJS} ${FT_TOBJS} ${STD_TOBJS}
 
 fclean:		clean
-	rm -f ${NAME} ${NAME}_test
+	rm -f ${NAME}_ft ${NAME}_std ${NAME}_test_ft ${NAME}_test_std
 
 re:			fclean ${NAME}
 
