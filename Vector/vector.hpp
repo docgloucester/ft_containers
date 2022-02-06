@@ -6,7 +6,7 @@
 /*   By: rgilles <rgilles@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 10:43:07 by rgilles           #+#    #+#             */
-/*   Updated: 2022/02/06 01:37:18 by rgilles          ###   ########.fr       */
+/*   Updated: 2022/02/06 16:53:06 by rgilles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,8 @@ namespace ft
 			size_type				capacity() const				{return (this->_capacity);}
 			size_type				max_size() const				{return (this->_alloc.max_size());}
 			allocator_type			get_allocator() const			{return (this->_alloc);}
+			pointer					data()							{return (this->_arr);}	// retroactively added to c++98 standard, cf. cppreference
+			const pointer			data() const					{return (this->_arr);}	// idem
 			bool					empty() const					{return (this->_size == 0);}
 			reference				operator[] (size_type n)		{return (this->_arr[n]);}
 			const_reference			operator[] (size_type n) const	{return (this->_arr[n]);}

@@ -6,7 +6,7 @@
 /*   By: rgilles <rgilles@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 17:34:35 by rgilles           #+#    #+#             */
-/*   Updated: 2022/02/05 22:11:41 by rgilles          ###   ########.fr       */
+/*   Updated: 2022/02/06 17:14:30 by rgilles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,13 +82,13 @@ namespace ft
 			value_compare		value_comp(void) const			{return (value_compare(key_compare()));}
 			bool				empty(void) const				{return (this->_size == 0 ? true : false);}
 			mapped_type&		operator[](const key_type& k)	{return (this->insert(value_type(k, mapped_type()))).first->second;}
-			mapped_type&		at(const key_type& k)			{
+			mapped_type&		at(const key_type& k)			{																	// retroactively added to c++98 standard
 																	iterator it = this->find(k);
 																	if (it == this->end())
 																		throw std::out_of_range("No such key.");
 																	return ((*it).second);
 																}
-			const mapped_type&	at(const key_type& k) const		{
+			const mapped_type&	at(const key_type& k) const		{																	// idem
 																	const_iterator it = this->find(k);
 																	if (it == this->end())
 																		throw std::out_of_range("No such key.");
@@ -400,8 +400,7 @@ namespace ft
 																		tmp = tmp->parent;
 																	}
 																	this->_rebalance(start->parent);
-																}
-																	
+																}														
 			}
 
 	};
