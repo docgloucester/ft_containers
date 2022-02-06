@@ -6,7 +6,7 @@
 /*   By: rgilles <rgilles@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 17:34:35 by rgilles           #+#    #+#             */
-/*   Updated: 2022/02/05 18:42:16 by rgilles          ###   ########.fr       */
+/*   Updated: 2022/02/05 22:11:41 by rgilles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,14 +116,17 @@ namespace ft
 																							}
 			ft::pair<iterator, bool>	insert(const value_type& val)						{
 																								ft::pair<iterator, bool> res;
-																								res.second = !this->count(val.first);
-																								if (res.second == true)
+																								res.first = this->find(val.first);
+																								if (res.first == this->end())
 																								{
 																									node_ptr	newnode = this->_alloc.allocate(1);
 																									this->_alloc.construct(newnode, node_type(val));
 																									this->_add_node(newnode);
+																									res.first = iterator(newnode);
+																									res.second = true;
 																								}
-																								res.first = this->find(val.first);
+																								else
+																									res.second = false;																							
 																								return (res);
 																							}
 			iterator					insert(iterator position, const value_type& val)	{
@@ -285,7 +288,7 @@ namespace ft
 																		endnode->parent = rightmost(to_add);
 																		rightmost(to_add)->right = endnode;
 																	}
-																	this->_balance_on_insert(to_add);
+																	//this->_balance_on_insert(to_add);
 																}
 			void				_del_node(node_ptr to_del)		{
 																	if (!to_del->left)
@@ -343,28 +346,28 @@ namespace ft
 																node_ptr	r = to_rotate->right;
 																to_rotate->right = r->left;
 																r->left = to_rotate;
-																to_rotate->height = std::max(to_rotate->right->height, to_rotate->left->height) + 1;
-																r->height = std::max(r->right->height, r->left->height) + 1;
+																to_rotate->height = std::max((to_rotate->right ? to_rotate->right->height : 0), (to_rotate->left ? to_rotate->left->height : 0)) + 1;
+																r->height = std::max((r->right ? r->right->height : 0), (r->left ? r->left->height : 0)) + 1;
 																return (r);
 															}
 			node_ptr	_rotate_right(node_ptr to_rotate)	{
 																node_ptr	l = to_rotate->left;
 																to_rotate->left = l->right;
 																l->right = to_rotate;
-																to_rotate->height = std::max(to_rotate->right->height, to_rotate->left->height) + 1;
-																l->height = std::max(l->right->height, l->left->height) + 1;
+																to_rotate->height = std::max((to_rotate->right ? to_rotate->right->height : 0), (to_rotate->left ? to_rotate->left->height : 0)) + 1;
+																l->height = std::max((l->right ? l->right->height : 0), (l->left ? l->left->height : 0)) + 1;
 																return (l);
 															}
 			node_ptr	_rotate_right_left(node_ptr to_rot)	{
 																to_rot->right = this->_rotate_right(to_rot->right);
 																to_rot = this->_rotate_left(to_rot);
-																to_rot->height = std::max(to_rot->left->height, to_rot->right->height) + 1;
+																to_rot->height = std::max((to_rot->right ? to_rot->right->height : 0), (to_rot->left ? to_rot->left->height : 0)) + 1;
 																return (to_rot);
 															}
 			node_ptr	_rotate_left_right(node_ptr to_rot)	{
 																to_rot->left = this->_rotate_left(to_rot->left);
 																to_rot = this->_rotate_right(to_rot);
-																to_rot->height = std::max(to_rot->left->height, to_rot->right->height) + 1;
+																to_rot->height = std::max((to_rot->right ? to_rot->right->height : 0), (to_rot->left ? to_rot->left->height : 0)) + 1;
 																return (to_rot);
 															}
 			node_ptr	_rebalance(node_ptr	start)			{

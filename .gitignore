@@ -1,5 +1,6 @@
 *.o
 *.out
 ft_containers
+ft_containers_test
 containers_test/
 42TESTERS-CONTAINERS/

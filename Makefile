@@ -6,7 +6,7 @@
 #    By: rgilles <rgilles@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/04 14:47:57 by rgilles           #+#    #+#              #
-#    Updated: 2022/02/05 14:55:05 by rgilles          ###   ########.fr        #
+#    Updated: 2022/02/05 21:32:48 by rgilles          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,8 @@ INCL =		common/equal.hpp common/lexicographical_compare.hpp common/enable_if.hpp
 			Map/map.hpp Map/tree_iterator.hpp Map/pair.hpp
 SRCS =		main.cpp
 OBJS =		${SRCS:.cpp=.o}
+TSRCS =		ft_main.cpp
+TOBJS =		${TSRCS:.cpp=.o}
 
 
 %.o:		%.cpp ${INCL} Makefile
@@ -31,12 +33,15 @@ all:		${NAME}
 ${NAME}:	${OBJS}
 	${CPPC} ${CPPFLAGS} -o ${NAME} ${OBJS}
 
+test:		${TOBJS}
+	${CPPC} ${CPPFLAGS} -o ${NAME}_test ${TOBJS}
+
 clean:
-	rm -f ${OBJS}
+	rm -f ${OBJS} ${TOBJS}
 
 fclean:		clean
-	rm -f ${NAME}
+	rm -f ${NAME} ${NAME}_test
 
 re:			fclean ${NAME}
 
-.PHONY:		clean fclean re
+.PHONY:		clean fclean re test

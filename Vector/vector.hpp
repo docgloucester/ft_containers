@@ -6,7 +6,7 @@
 /*   By: rgilles <rgilles@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 10:43:07 by rgilles           #+#    #+#             */
-/*   Updated: 2022/02/04 19:02:53 by rgilles          ###   ########.fr       */
+/*   Updated: 2022/02/06 01:37:18 by rgilles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,11 @@ namespace ft
 			vector(const vector& x)																								: _arr(NULL), _size(0), _capacity(0)				{*this = x;}
 			~vector()																																								{
 																																														if (this->_capacity != 0)
+																																														{
+																																															for (size_t i = 0; i < this->_size; i++)
+																																																this->_alloc.destroy(this->_arr + i);
 																																															this->_alloc.deallocate(this->_arr, this->_capacity);
+																																														}
 																																													}
 			vector& operator= (const vector& x)																																		{
 																																														if (this != &x)
@@ -204,11 +208,14 @@ namespace ft
 																								this->reserve(this->_size + count);
 																								for (std::ptrdiff_t i = this->_size; i > pos; i--)
 																									this->_alloc.construct(_arr + i - 1 + count, this->_arr[i - 1]);
+																								std::ptrdiff_t	former_size = this->_size;
 																								this->_size += count;
 																								while (count--)
 																								{
 																									last--;
-																									this->_alloc.construct(_arr +pos + count, *last);
+																									if (pos + count < former_size)
+																										this->_alloc.destroy(this->_arr + pos + count);
+																									this->_alloc.construct(this->_arr + pos + count, *last);
 																								}
 																							}
 			void		pop_back()															{
